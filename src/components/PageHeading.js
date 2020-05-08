@@ -8,4 +8,6 @@ export default styled.h1`
   font-size: ${({ theme }) => theme.fontSizes[6]};
   line-height: ${({ theme }) => theme.lineHeights.heading};
   text-align: center;
+  transition: color ${({ theme }) => theme.durations.default}
+    ${({ theme }) => theme.timingFunctions.default};
 `

@@ -9,5 +9,7 @@ export default styled.p`
   font-size: ${({ theme, sm }) =>
     sm ? theme.fontSizes[1] : theme.fontSizes[2]};
   line-height: ${({ theme }) => theme.lineHeights.body};
+  transition: color ${({ theme }) => theme.durations.default}
+    ${({ theme }) => theme.timingFunctions.default};
   ${({ center }) => center && 'text-align: center'}
 `

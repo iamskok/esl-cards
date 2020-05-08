@@ -10,6 +10,8 @@ const StyledCard = styled.div`
   padding: ${({ theme }) => theme.space[2]};
   border-radius: ${({ theme }) => theme.radii[1]};
   background-color: ${({ theme }) => theme.colors.gray};
+  transition: background-color ${({ theme }) => theme.durations.default}
+    ${({ theme }) => theme.timingFunctions.default};
 `
 
 const SpaceBetween = styled.div`

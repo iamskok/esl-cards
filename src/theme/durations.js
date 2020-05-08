@@ -1,5 +1,5 @@
 export default {
-  default: `300ms`,
+  default: `400ms`,
   spinner: `1200ms`,
   spinnerDelay: `-500ms`,
 }
