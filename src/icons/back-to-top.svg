@@ -1,0 +1,13 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 11 16"
+  tabindex="-1"
+  role="img"
+  aria-labelledby="title"
+>
+  <title id="title">Back to top</title>
+  <defs/>
+  <g fill="currentColor" fill-rule="nonzero">
+    <path d="M0 1V0h11v1zM5.00080234 4.98391773L.86143905 9.35716295l-.72626031-.68741979L5.50170303 3l5.36311827 5.67285481-.7266664.68699054-4.13735256-4.37629741V16h-1V4.98391773z"/>
+  </g>
+</svg>
