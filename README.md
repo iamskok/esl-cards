@@ -9,11 +9,9 @@
 
 ## To Do
 
-* Add search box fetching
-* add scroll to top button (forwardRef from Container)
-* Load more cards based on navigation.connectionType
-
 * Add no cards found state
+* add scroll to top button (forwardRef from Container)
+
 * create new repo ESL-explorer + new netlify website
 * Add HTTP caching headers
 * Add webpack uglify / Minify JS

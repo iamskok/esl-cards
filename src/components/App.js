@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import GlobalStyles from '../styles/global'
 import { ThemeProvider } from 'styled-components'
 import { lightTheme, darkTheme } from '../theme'
+import GlobalStyles from '../styles/global'
 import ScrollContainer from './ScrollContainer'
 import Container from './Container'
 import PageHeading from './PageHeading'
-import Card from './Card'
-import Spinner from './Spinner'
 import ColorModeButton from './ColorModeButton'
-import ScrollToTopButton from './ScrollToTopButton'
-import Grid from './Grid'
-import Footer from './Footer'
-import FlexCenter from './FlexCenter'
 import SearchBox from './SearchBox'
+import FlexCenter from './FlexCenter'
+import Spinner from './Spinner'
+import Grid from './Grid'
+import Card from './Card'
+import Footer from './Footer'
+import ScrollToTopButton from './ScrollToTopButton'
 import useFetch from '../hooks/useFetch'
 import debounce from '../utils/debounce'
 import {
@@ -77,6 +77,11 @@ export default () => {
     }
   }
 
+  const handleColorMode = () => {
+    setIsDarkMode(!isDarkMode)
+    localStorage.setItem(`isDarkMode`, !isDarkMode)
+  }
+
   return (
     <ScrollContainer onScroll={handleScroll}>
       <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
@@ -85,26 +90,25 @@ export default () => {
           <>
             <header>
               <PageHeading>Elder Scrolls Legends</PageHeading>
-              <ColorModeButton
-                onClick={() => {
-                  setIsDarkMode(!isDarkMode)
-                  localStorage.setItem(`isDarkMode`, !isDarkMode)
-                }}
-              >
+
+              <ColorModeButton onClick={handleColorMode}>
                 {isDarkMode ? `Dark` : `Light`} Mode
               </ColorModeButton>
             </header>
+
             <main>
               <SearchBox
                 label='Search cards by name'
                 placeholder='E.g. Shaman'
                 onChange={debounce(handleInputChange, DEBOUNCE_TIMEOUT)}
               />
+
               {(!res.response || res.isLoading) && !exhausted && (
                 <FlexCenter>
                   <Spinner />
                 </FlexCenter>
               )}
+
               <Grid>
                 {cards.map(({ id, name, text, imageUrl, set, type }) => (
                   <Card
@@ -118,11 +122,13 @@ export default () => {
                 ))}
               </Grid>
             </main>
+
             {blockRequest && cards.length > 0 && (
               <FlexCenter>
                 <Spinner />
               </FlexCenter>
             )}
+
             <Footer>
               <ScrollToTopButton />
             </Footer>
