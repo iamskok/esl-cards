@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Input = styled.input`
@@ -24,9 +24,8 @@ const Container = styled.div`
   margin: 0 auto ${({ theme }) => theme.space[5]};
 `
 
-export default ({ label, placeholder }) => {
-  const [value, setValue] = useState('')
-  const handleChange = event => setValue(event.target.value)
+export default ({ label, placeholder, onChange }) => {
+  const handleChange = event => onChange(event.target.value.trim())
 
   return (
     <Container>

@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/2edaa2de-3a58-4195-ade8-7005fd4f4483/deploy-status)](https://app.netlify.com/sites/highspot/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e480a039-7119-445f-9946-084c41330c86/deploy-status)](https://app.netlify.com/sites/esl-cards/deploys)
 
 ## Process
 
@@ -13,12 +13,14 @@
 * add scroll to top button (forwardRef from Container)
 * Load more cards based on navigation.connectionType
 
+* Add no cards found state
 * create new repo ESL-explorer + new netlify website
 * Add HTTP caching headers
 * Add webpack uglify / Minify JS
 * Add useSound hook
 * Add animations with motion
 * Add webpack bundle analyzer
+
 
 * Add js sourcemaps
 * Check grid css properties
