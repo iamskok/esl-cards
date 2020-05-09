@@ -9,6 +9,7 @@ import ColorModeButton from './ColorModeButton'
 import SearchBox from './SearchBox'
 import FlexCenter from './FlexCenter'
 import Spinner from './Spinner'
+import Text from './Text'
 import Grid from './Grid'
 import Card from './Card'
 import Footer from './Footer'
@@ -111,6 +112,14 @@ export default () => {
               {(!res.response || res.isLoading) && !exhausted && (
                 <FlexCenter>
                   <Spinner />
+                </FlexCenter>
+              )}
+
+              {cards.length === 0 && !res.isLoading && (
+                <FlexCenter>
+                  <Text>
+                    No Cards Found
+                  </Text>
                 </FlexCenter>
               )}
 
