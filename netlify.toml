@@ -2,3 +2,8 @@
   for = "*.woff2"
   [headers.values]
     Cache-Control = "max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "max-age=31536000, immutable"
