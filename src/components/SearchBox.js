@@ -8,6 +8,8 @@ const Input = styled.input`
     ${({ theme }) => theme.colors.text};
   border-radius: ${({ theme }) => theme.radii[1]};
   font-size: ${({ theme }) => theme.fontSizes[2]};
+  transition: border-color ${({ theme }) => theme.durations.default}
+    ${({ theme }) => theme.timingFunctions.default};
   appearance: none;
 
   &::placeholder {
