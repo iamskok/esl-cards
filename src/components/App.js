@@ -117,9 +117,7 @@ export default () => {
 
               {cards.length === 0 && !res.isLoading && (
                 <FlexCenter>
-                  <Text>
-                    No Cards Found
-                  </Text>
+                  <Text>No Cards Found</Text>
                 </FlexCenter>
               )}
 
