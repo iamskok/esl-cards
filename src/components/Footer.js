@@ -10,7 +10,14 @@ const StyledFooter = styled.footer`
 export default ({ children }) => (
   <StyledFooter>
     <Text center={true}>
-      {`Built with <3 and pixels by`}{' '}
+      {`Built with `}
+      <Link
+        tabIndex='-1'
+        href='https://media.giphy.com/media/3oriO6qJiXajN0TyDu/source.gif'
+      >
+        {`<3`}
+      </Link>
+      {` and pixels by `}
       <Link tabIndex='-1' href='https://github.com/iamskok'>
         Vladimir
       </Link>
