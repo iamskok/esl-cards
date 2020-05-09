@@ -16,7 +16,7 @@ const StyledSVG = styled(SVG)`
   pointer-events: none;
 `
 
-export default () => {
+export default ({ play }) => {
   const [showScroll, setShowScroll] = useState(false)
   // console.log('showScroll', showScroll)
 
@@ -42,6 +42,7 @@ export default () => {
       // just a fallback for older browsers
       window.scrollTo(0, 0)
     }
+    play()
   }
 
   window.addEventListener('scroll', checkScrollTop)

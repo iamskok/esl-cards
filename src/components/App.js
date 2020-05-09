@@ -14,6 +14,8 @@ import Card from './Card'
 import Footer from './Footer'
 import ScrollToTopButton from './ScrollToTopButton'
 import useFetch from '../hooks/useFetch'
+import useSound from 'use-sound'
+import mouseClickSound from '../sounds/bite.mp3'
 import debounce from '../utils/debounce'
 import {
   ENDPOINT,
@@ -34,6 +36,8 @@ export default () => {
   const [isDarkMode, setIsDarkMode] = useState(
     stored === `true` ? true : false
   )
+
+  const [play] = useSound(mouseClickSound)
 
   const handleInputChange = text => {
     if (text !== urlParams.name) {
@@ -80,6 +84,7 @@ export default () => {
   const handleColorMode = () => {
     setIsDarkMode(!isDarkMode)
     localStorage.setItem(`isDarkMode`, !isDarkMode)
+    play()
   }
 
   return (
@@ -130,7 +135,7 @@ export default () => {
             )}
 
             <Footer>
-              <ScrollToTopButton />
+              <ScrollToTopButton play={play} />
             </Footer>
           </>
         </Container>

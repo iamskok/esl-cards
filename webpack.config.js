@@ -28,6 +28,11 @@ module.exports = {
           loader: 'file-loader',
         },
       },
+      {
+        test: /\.mp3$/,
+        // include: SRC,
+        loader: 'file-loader',
+      },
     ],
   },
   plugins: [
