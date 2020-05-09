@@ -19,6 +19,7 @@ const useFetch = (url, options = {}) => {
         setError(error)
       }
     }
+
     fetchData()
   }, [url])
 

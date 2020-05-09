@@ -6,6 +6,7 @@ const StyledLink = styled(Text)`
   color: ${({ theme }) => theme.colors.secondary};
   transition: color ${({ theme }) => theme.durations.default}
     ${({ theme }) => theme.timingFunctions.default};
+
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
   }

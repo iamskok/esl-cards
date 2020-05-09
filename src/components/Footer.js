@@ -15,6 +15,7 @@ export default ({ children }) => (
         Vladimir
       </Link>
     </Text>
+
     {children}
   </StyledFooter>
 )
