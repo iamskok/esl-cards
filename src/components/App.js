@@ -7,6 +7,7 @@ import Container from './Container'
 import PageHeading from './PageHeading'
 import ColorModeButton from './ColorModeButton'
 import SearchBox from './SearchBox'
+import NoCardsFound from './NoCardsFound'
 import FlexCenter from './FlexCenter'
 import Spinner from './Spinner'
 import Text from './Text'
@@ -143,7 +144,7 @@ export default () => {
 
               {cards.length === 0 && !res.isLoading && (
                 <FlexCenter>
-                  <Text>No Cards Found</Text>
+                  <NoCardsFound />
                 </FlexCenter>
               )}
 
