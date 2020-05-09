@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin')
+const path = require('path')
 
 module.exports = {
   module: {
@@ -30,7 +31,6 @@ module.exports = {
       },
       {
         test: /\.mp3$/,
-        // include: SRC,
         loader: 'file-loader',
       },
     ],
@@ -41,4 +41,8 @@ module.exports = {
       filename: `./index.html`,
     }),
   ],
+  output: {
+    filename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'dist'),
+  },
 }
