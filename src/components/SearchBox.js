@@ -9,6 +9,10 @@ const Input = styled.input`
   border-radius: ${({ theme }) => theme.radii[1]};
   font-size: ${({ theme }) => theme.fontSizes[2]};
   appearance: none;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `
 
 const Label = styled.label`
