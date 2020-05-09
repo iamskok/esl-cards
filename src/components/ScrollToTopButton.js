@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import Button from './Button'
 import backToTop from '../icons/back-to-top.svg'
@@ -8,6 +8,10 @@ const StyledScrollTopButton = styled(Button)`
   position: absolute;
   right: ${({ theme }) => theme.space[3]};
   bottom: ${({ theme }) => theme.space[3]};
+  opacity: ${({ visible }) => (visible ? 1 : 0)};
+  pointer-events: ${({ visible }) => (visible ? 'auto' : 'none')};
+  transition: opacity ${({ theme }) => theme.durations.default}
+    ${({ theme }) => theme.timingFunctions.default};
 `
 
 const StyledSVG = styled(SVG)`
@@ -16,40 +20,12 @@ const StyledSVG = styled(SVG)`
   pointer-events: none;
 `
 
-export default ({ play }) => {
-  const [showScroll, setShowScroll] = useState(false)
-  // console.log('showScroll', showScroll)
-
-  const checkScrollTop = () => {
-    // console.log('checkScrollTop')
-    if (!showScroll && window.pageYOffset > 400) {
-      setShowScroll(true)
-    } else if (showScroll && window.pageYOffset <= 400) {
-      setShowScroll(false)
-    }
-  }
-
-  const scrollTop = () => {
-    // console.log('scrollTop')
-    try {
-      // trying to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
-      window.scroll({
-        top: 0,
-        left: 0,
-        behavior: 'smooth',
-      })
-    } catch (error) {
-      // just a fallback for older browsers
-      window.scrollTo(0, 0)
-    }
-    play()
-  }
-
-  window.addEventListener('scroll', checkScrollTop)
-
-  return (
-    <StyledScrollTopButton onClick={scrollTop}>
-      <StyledSVG src={backToTop} />
-    </StyledScrollTopButton>
-  )
-}
+export default ({ scrollTop, visible }) => (
+  <StyledScrollTopButton
+    onClick={scrollTop}
+    visible={visible}
+    tabIndex={visible ? 0 : -1}
+  >
+    <StyledSVG src={backToTop} />
+  </StyledScrollTopButton>
+)

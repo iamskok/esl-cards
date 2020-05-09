@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { lightTheme, darkTheme } from '../theme'
 import GlobalStyles from '../styles/global'
@@ -32,6 +32,9 @@ export default () => {
   const [blockRequest, setBlockRequest] = useState(true)
   const [exhausted, setExhausted] = useState(false)
   const [cards, setCards] = useState([])
+  const [scrollTopButtonVisible, setScrollTopButtonVisible] = useState(
+    false
+  )
 
   const stored = localStorage.getItem(`isDarkMode`)
   const [isDarkMode, setIsDarkMode] = useState(
@@ -39,6 +42,17 @@ export default () => {
   )
 
   const [play] = useSound(mouseClickSound)
+
+  const handleColorMode = () => {
+    setIsDarkMode(!isDarkMode)
+    localStorage.setItem(`isDarkMode`, !isDarkMode)
+    play()
+  }
+
+  const res = useFetch(
+    `${ENDPOINT}?${INITIAL_PAGE_SIZE}&page=${urlParams.currentPage}&name=${urlParams.name}`,
+    {}
+  )
 
   const handleInputChange = text => {
     if (text !== urlParams.name) {
@@ -51,11 +65,6 @@ export default () => {
     }
   }
 
-  const res = useFetch(
-    `${ENDPOINT}?${INITIAL_PAGE_SIZE}&page=${urlParams.currentPage}&name=${urlParams.name}`,
-    {}
-  )
-
   useEffect(() => {
     if (res.response !== null && res.error === null) {
       setCards([...cards, ...res.response.cards])
@@ -65,6 +74,8 @@ export default () => {
       }
     }
   }, [res.response && res.response.cards])
+
+  const scrollElement = useRef(null)
 
   const handleScroll = event => {
     const clientHeight = event.target.clientHeight
@@ -80,16 +91,31 @@ export default () => {
       })
       setBlockRequest(true)
     }
+
+    if (scrollTop >= clientHeight * 0.5) {
+      setScrollTopButtonVisible(true)
+    } else {
+      setScrollTopButtonVisible(false)
+    }
   }
 
-  const handleColorMode = () => {
-    setIsDarkMode(!isDarkMode)
-    localStorage.setItem(`isDarkMode`, !isDarkMode)
+  const scrollTop = () => {
+    try {
+      // Try to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      scrollElement.current.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      })
+    } catch (error) {
+      // Fallback for older browsers
+      scrollElement.current.scrollTo(0, 0)
+    }
     play()
   }
 
   return (
-    <ScrollContainer onScroll={handleScroll}>
+    <ScrollContainer onScroll={handleScroll} ref={scrollElement}>
       <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <GlobalStyles />
         <Container>
@@ -142,7 +168,10 @@ export default () => {
             )}
 
             <Footer>
-              <ScrollToTopButton play={play} />
+              <ScrollToTopButton
+                scrollTop={scrollTop}
+                visible={scrollTopButtonVisible}
+              />
             </Footer>
           </>
         </Container>
