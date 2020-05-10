@@ -12,16 +12,10 @@
   "scripts": {
     "start": "webpack-dev-server --open --mode development",
     "build": "webpack --mode production",
-    "lint:styles": "stylelint './src/**/*.js'",
     "format:styles": "stylelint --fix './src/**/*.js'",
-    "lint": "eslint .",
-    "format": "prettier --write \"**/*.{js,jsx,json}\"",
-    "prepare": "yarn format && yarn format:styles && yarn lint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn prepare"
-    }
+    "lint:js": "eslint .",
+    "format:js": "prettier --write \"**/*.{js,jsx,json}\"",
+    "precommit": "yarn format:js && yarn format:styles && yarn lint:js"
   },
   "dependencies": {
     "@babel/runtime": "^7.9.6",
@@ -46,7 +40,6 @@
     "file-loader": "6.0.0",
     "html-loader": "1.1.0",
     "html-webpack-plugin": "4.3.0",
-    "husky": "4.2.5",
     "prettier": "2.0.5",
     "react-inlinesvg": "1.2.0",
     "stylelint": "13.3.3",
