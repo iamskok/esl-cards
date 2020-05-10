@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import SVG from 'react-inlinesvg'
 import Button from './Button'
-import backToTop from '../icons/back-to-top.svg'
+import backToTopIcon from '../assets/icons/back-to-top.svg'
 
 const StyledScrollTopButton = styled(Button)`
   position: absolute;
@@ -28,6 +28,6 @@ export default ({ scrollTop, visible }) => (
     // navigation flow.
     tabIndex={visible ? 0 : -1}
   >
-    <StyledSVG src={backToTop} />
+    <StyledSVG src={backToTopIcon} />
   </StyledScrollTopButton>
 )

@@ -1,6 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 import modernNormalize from './modern-normalize'
-import interWoff2 from '../fonts/inter-subset.woff2'
+import interWoff2 from '../assets/fonts/inter-subset.woff2'
 
 export default createGlobalStyle`
   /* stylelint-disable */

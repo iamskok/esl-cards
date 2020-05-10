@@ -1,28 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { ThemeProvider } from 'styled-components'
+import useSound from 'use-sound'
+import clickSound from '../assets/sounds/bite.mp3'
+import useFetch from '../hooks/useFetch'
+import { ENDPOINT, PAGE_SIZE, DEBOUNCE_TIMEOUT } from '../constants'
+import ScrollContainer from './ScrollContainer'
 import { lightTheme, darkTheme } from '../theme'
 import GlobalStyles from '../styles/global'
-import ScrollContainer from './ScrollContainer'
 import Container from './Container'
+import FlexColumn from './FlexColumn'
 import PageHeading from './PageHeading'
 import ColorModeButton from './ColorModeButton'
 import SearchBox from './SearchBox'
-import NoCardsFound from './NoCardsFound'
+import debounce from '../utils/debounce'
 import FlexCenter from './FlexCenter'
 import Spinner from './Spinner'
+import NoCardsFound from './NoCardsFound'
 import Grid from './Grid'
 import Card from './Card'
 import Footer from './Footer'
 import ScrollToTopButton from './ScrollToTopButton'
-import useFetch from '../hooks/useFetch'
-import useSound from 'use-sound'
-import mouseClickSound from '../sounds/bite.mp3'
-import debounce from '../utils/debounce'
-import {
-  ENDPOINT,
-  INITIAL_PAGE_SIZE,
-  DEBOUNCE_TIMEOUT,
-} from '../constants'
 
 export default () => {
   const [urlParams, setUrlParams] = useState({
@@ -47,7 +44,7 @@ export default () => {
     stored === `true` ? true : false
   )
 
-  const [play] = useSound(mouseClickSound)
+  const [play] = useSound(clickSound)
 
   const handleColorMode = () => {
     setIsDarkMode(!isDarkMode)
@@ -56,7 +53,7 @@ export default () => {
   }
 
   const res = useFetch(
-    `${ENDPOINT}?${INITIAL_PAGE_SIZE}&page=${urlParams.currentPage}&name=${urlParams.name}`,
+    `${ENDPOINT}?${PAGE_SIZE}&page=${urlParams.currentPage}&name=${urlParams.name}`,
     {}
   )
 
@@ -136,70 +133,68 @@ export default () => {
       <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <GlobalStyles />
         <Container>
-          <>
-            <header>
-              <PageHeading>Elder Scrolls Legends</PageHeading>
+          <FlexColumn as='header'>
+            <PageHeading>Elder Scrolls Legends</PageHeading>
 
-              <ColorModeButton onClick={handleColorMode}>
-                {isDarkMode ? `Dark` : `Light`} Mode
-              </ColorModeButton>
-            </header>
+            <ColorModeButton onClick={handleColorMode}>
+              {isDarkMode ? `Dark` : `Light`} Mode
+            </ColorModeButton>
+          </FlexColumn>
 
-            <main>
-              <SearchBox
-                label='Search cards by name'
-                placeholder='E.g. Shaman'
-                // Limit function calls to a certain time frame.
-                onChange={debounce(handleInputChange, DEBOUNCE_TIMEOUT)}
-              />
+          <main>
+            <SearchBox
+              label='Search cards by name'
+              placeholder='E.g. Shaman'
+              // Limit function calls to a certain time frame.
+              onChange={debounce(handleInputChange, DEBOUNCE_TIMEOUT)}
+            />
 
-              {/* Show spinner when:
+            {/* Show spinner when:
 
-                1. There is no response **or** there is an ongoing request.
-                2. There are more cards available. */}
-              {(!res.response || res.isLoading) && !exhausted && (
-                <FlexCenter>
-                  <Spinner />
-                </FlexCenter>
-              )}
-
-              {/* Show "No cards found" message if no more cards
-                available **and** there is no ongoing request. */}
-              {cards.length === 0 && !res.isLoading && (
-                <FlexCenter>
-                  <NoCardsFound />
-                </FlexCenter>
-              )}
-
-              <Grid>
-                {cards.map(({ id, name, text, imageUrl, set, type }) => (
-                  <Card
-                    key={id}
-                    name={name}
-                    text={text}
-                    imageUrl={imageUrl}
-                    set={set}
-                    type={type}
-                  />
-                ))}
-              </Grid>
-            </main>
-
-            {/* Show spinner when the last request is not finished
-             **and** there are more cards available. */}
-            {blockRequest && cards.length > 0 && (
+              1. There is no response **or** there is an ongoing request.
+              2. There are more cards available. */}
+            {(!res.response || res.isLoading) && !exhausted && (
               <FlexCenter>
                 <Spinner />
               </FlexCenter>
             )}
 
-            <Footer>
-              <ScrollToTopButton
-                scrollTop={scrollTop}
-                visible={scrollTopButtonVisible}
-              />
-            </Footer>
-          </>
+            {/* Show "No cards found" message if no more cards
+              available **and** there is no ongoing request. */}
+            {cards.length === 0 && !res.isLoading && (
+              <FlexCenter>
+                <NoCardsFound />
+              </FlexCenter>
+            )}
+
+            <Grid>
+              {cards.map(({ id, name, text, imageUrl, set, type }) => (
+                <Card
+                  key={id}
+                  name={name}
+                  text={text}
+                  imageUrl={imageUrl}
+                  set={set}
+                  type={type}
+                />
+              ))}
+            </Grid>
+          </main>
+
+          {/* Show spinner when the last request is not finished
+           **and** there are more cards available. */}
+          {blockRequest && cards.length > 0 && (
+            <FlexCenter>
+              <Spinner />
+            </FlexCenter>
+          )}
+
+          <Footer>
+            <ScrollToTopButton
+              scrollTop={scrollTop}
+              visible={scrollTopButtonVisible}
+            />
+          </Footer>
         </Container>
       </ThemeProvider>
     </ScrollContainer>
