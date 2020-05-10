@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import SVG from 'react-inlinesvg'
 import Button from './Button'
 import backToTop from '../icons/back-to-top.svg'
-import SVG from 'react-inlinesvg'
 
 const StyledScrollTopButton = styled(Button)`
   position: absolute;
