@@ -1,3 +1,5 @@
+// https://theme-ui.com/theme-spec#color
+
 export default {
   text: `hsl(10, 100%, 5%)`,
   background: `hsl(10, 10%, 98%)`,

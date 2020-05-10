@@ -1,3 +1,5 @@
+// https://theme-ui.com/theme-spec#theme-scales
+
 export default {
   container: `1200px`,
   spinner: `64px`,
