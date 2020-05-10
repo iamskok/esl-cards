@@ -7,10 +7,20 @@ export default createGlobalStyle`
   ${modernNormalize}
   /* stylelint-enable */
 
+  /* Inter variable font documentation
+    https://rsms.me/inter */
   @font-face {
     font-family: 'Inter var';
+    /* Set range of available font weight values. */
     font-weight: 100 900;
+    /*
+      If the font face is not loaded, any element
+      attempting to use it must render a fallback
+      font face. */
     font-display: swap;
+    /* Set available degree range for italic styles.
+      In-depth explanation of italic styles in variable fonts -
+      https://rwt.io/typography-tips/getting-bent-current-state-italics-variable-font-support */
     font-style: oblique 0deg 10deg;
     src: url(${interWoff2}) format('woff2-variations'),
       url(${interWoff2}) format('woff2');
