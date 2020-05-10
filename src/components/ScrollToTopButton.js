@@ -24,6 +24,8 @@ export default ({ scrollTop, visible }) => (
   <StyledScrollTopButton
     onClick={scrollTop}
     visible={visible}
+    // When button is invisible remove it from the default
+    // navigation flow.
     tabIndex={visible ? 0 : -1}
   >
     <StyledSVG src={backToTop} />

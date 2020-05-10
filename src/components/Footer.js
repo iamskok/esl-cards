@@ -12,13 +12,20 @@ export default ({ children }) => (
     <Text center={true}>
       {`Built with `}
       <Link
+        // To avoid unwanted fetch trigger remove the element from
+        // the default navigation flow.
         tabIndex='-1'
         href='https://media.giphy.com/media/3oriO6qJiXajN0TyDu/source.gif'
       >
         {`<3`}
       </Link>
       {` and pixels by `}
-      <Link tabIndex='-1' href='https://github.com/iamskok'>
+      <Link
+        // To avoid unwanted fetch trigger remove the element from
+        // the default navigation flow.
+        tabIndex='-1'
+        href='https://github.com/iamskok'
+      >
         Vladimir
       </Link>
     </Text>

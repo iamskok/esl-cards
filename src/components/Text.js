@@ -1,5 +1,13 @@
 import styled from 'styled-components'
 
+/*
+  Component API:
+
+  1. `marginTop` - set custom `margin-top` value.
+  2. `sm` - set smaller font size.
+  3. `center` - set `text-align: center`
+*/
+
 export default styled.p`
   margin-top: ${({ marginTop, theme }) =>
     marginTop ? marginTop : theme.space[0]};

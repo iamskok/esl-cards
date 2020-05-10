@@ -31,6 +31,7 @@ const Container = styled.div`
 `
 
 export default ({ label, placeholder, onChange }) => {
+  // Get input value and remove unwanted whitespace.
   const handleChange = event => onChange(event.target.value.trim())
 
   return (

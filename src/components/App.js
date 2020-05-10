@@ -10,7 +10,6 @@ import SearchBox from './SearchBox'
 import NoCardsFound from './NoCardsFound'
 import FlexCenter from './FlexCenter'
 import Spinner from './Spinner'
-import Text from './Text'
 import Grid from './Grid'
 import Card from './Card'
 import Footer from './Footer'
@@ -30,13 +29,19 @@ export default () => {
     name: ``,
     currentPage: 1,
   })
+
+  // Block request if the last request is not finished.
   const [blockRequest, setBlockRequest] = useState(true)
+  // Block request if there are no more cards available.
   const [exhausted, setExhausted] = useState(false)
   const [cards, setCards] = useState([])
+  // Don't show scroll to top button unless viewport has been scrolled
+  // passed a certain amount of `px`.
   const [scrollTopButtonVisible, setScrollTopButtonVisible] = useState(
     false
   )
 
+  // Check if the color mode has previously been selected.
   const stored = localStorage.getItem(`isDarkMode`)
   const [isDarkMode, setIsDarkMode] = useState(
     stored === `true` ? true : false
@@ -55,7 +60,10 @@ export default () => {
     {}
   )
 
+  // Handle cards search query changes.
   const handleInputChange = text => {
+    // Check if search query is different from the previous one.
+    // Ignore search query if it hasn't been changed.
     if (text !== urlParams.name) {
       setCards([])
       setUrlParams({
@@ -67,9 +75,12 @@ export default () => {
   }
 
   useEffect(() => {
+    // Listen to the new incoming data from fetch object.
     if (res.response !== null && res.error === null) {
+      // Add new cards to the state.
       setCards([...cards, ...res.response.cards])
       setBlockRequest(false)
+      // If there are no cards in the last request block future requests.
       if (res.response.cards.length === 0) {
         setExhausted(true)
       }
@@ -85,6 +96,8 @@ export default () => {
 
     if (blockRequest || exhausted) return
 
+    // When the viewport has been scrolled for at least 95% of the scroll
+    // height make a new request.
     if (clientHeight + scrollTop >= scrollHeight * 0.95) {
       setUrlParams({
         ...urlParams,
@@ -93,6 +106,8 @@ export default () => {
       setBlockRequest(true)
     }
 
+    // When the viewport has been scrolled for at least 50% show
+    // `ScrollToTopButton` component. Otherwise hide it.
     if (scrollTop >= clientHeight * 0.5) {
       setScrollTopButtonVisible(true)
     } else {
@@ -102,14 +117,15 @@ export default () => {
 
   const scrollTop = () => {
     try {
-      // Try to use new API - https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+      // Try to use new API
+      // https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
       scrollElement.current.scroll({
         top: 0,
         left: 0,
         behavior: 'smooth',
       })
     } catch (error) {
-      // Fallback for older browsers
+      // Fallback for browsers that don't support smooth scrolling.
       scrollElement.current.scrollTo(0, 0)
     }
     play()
@@ -133,15 +149,22 @@ export default () => {
               <SearchBox
                 label='Search cards by name'
                 placeholder='E.g. Shaman'
+                // Limit function calls to a certain time frame.
                 onChange={debounce(handleInputChange, DEBOUNCE_TIMEOUT)}
               />
 
+              {/* Show spinner when:
+
+                1. There is no response **or** there is an ongoing request.
+                2. There are more cards available. */}
               {(!res.response || res.isLoading) && !exhausted && (
                 <FlexCenter>
                   <Spinner />
                 </FlexCenter>
               )}
 
+              {/* Show "No cards found" message if no more cards
+                available **and** there is no ongoing request. */}
               {cards.length === 0 && !res.isLoading && (
                 <FlexCenter>
                   <NoCardsFound />
@@ -162,6 +185,8 @@ export default () => {
               </Grid>
             </main>
 
+            {/* Show spinner when the last request is not finished
+             **and** there are more cards available. */}
             {blockRequest && cards.length > 0 && (
               <FlexCenter>
                 <Spinner />

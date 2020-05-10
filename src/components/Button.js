@@ -13,9 +13,11 @@ const StyledButton = styled.button`
   cursor: pointer;
   transition: background-color ${({ theme }) => theme.durations.default}
     ${({ theme }) => theme.timingFunctions.default};
+  /* Block default tap highlight color on iOS. */
   -webkit-tap-highlight-color: transparent;
 
   &:hover {
+    /* Don't apply hover styles on touch devices. */
     background-color: ${!isTouchDevice() &&
     (({ theme }) => theme.colors.primary)};
   }
@@ -30,6 +32,7 @@ export default ({ children, onClick, ...props }) => {
     <StyledButton
       {...props}
       touch={touch}
+      // Handle styles for touch devices.
       onTouchStart={addTouchStyles}
       onTouchEnd={removeTouchStyles}
       onClick={onClick}

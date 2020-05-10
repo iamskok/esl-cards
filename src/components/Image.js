@@ -8,5 +8,7 @@ const StyledImage = styled.img`
 `
 
 export default ({ alt, src }) => (
+  // Use native lazy-loading.
+  // https://developer.mozilla.org/en-US/docs/Web/Performance/Lazy_loading
   <StyledImage alt={alt} src={src} loading='lazy' />
 )
