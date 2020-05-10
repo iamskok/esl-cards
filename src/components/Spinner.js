@@ -9,6 +9,7 @@ const animation = () => keyframes`
     height: 0;
     opacity: 1;
   }
+
   100% {
     top: -1px;
     left: -1px;
@@ -40,10 +41,8 @@ const StyledSpinner = styled.div`
 `
 
 export default () => (
-  <div>
-    <StyledSpinner>
-      <div />
-      <div />
-    </StyledSpinner>
-  </div>
+  <StyledSpinner>
+    <div />
+    <div />
+  </StyledSpinner>
 )
