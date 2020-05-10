@@ -1,5 +1,6 @@
 {
   "name": "elder-scrolls-legends",
+  "private": true,
   "version": "0.1.0",
   "description": "Elder Scrolls Legends card explorer app",
   "main": "index.js",
