@@ -19,6 +19,7 @@ const glitch1 = keyframes`${keyframes1}`
 const glitch2 = keyframes`${keyframes2}`
 
 const GlitchText = styled(Text)`
+    font-weight: ${({ theme }) => theme.fontWeights.heading};
     font-size: ${({ theme }) => theme.fontSizes[3]};
 
     /*
@@ -48,7 +49,7 @@ const GlitchText = styled(Text)`
       }
 
       &::after {
-        text-shadow: 1px 0 blue;
+        text-shadow: -1px 0 blue;
         animation: ${glitch2} 3s infinite linear alternate-reverse;
       }
     }
