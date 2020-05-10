@@ -1,10 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { ThemeProvider } from 'styled-components'
 import useSound from 'use-sound'
 import clickSound from '../assets/sounds/bite.mp3'
 import useFetch from '../hooks/useFetch'
-import { ENDPOINT, PAGE_SIZE, DEBOUNCE_TIMEOUT } from '../constants'
+import {
+  ENDPOINT,
+  PAGE_SIZE,
+  DEBOUNCE_TIMEOUT,
+  THROTTLE_TIMEOUT,
+} from '../constants'
 import ScrollContainer from './ScrollContainer'
+import throttle from '../utils/throttle'
 import { lightTheme, darkTheme } from '../theme'
 import GlobalStyles from '../styles/global'
 import Container from './Container'
@@ -58,18 +64,23 @@ export default () => {
   )
 
   // Handle cards search query changes.
-  const handleInputChange = text => {
-    // Check if search query is different from the previous one.
-    // Ignore search query if it hasn't been changed.
-    if (text !== urlParams.name) {
-      setCards([])
-      setUrlParams({
-        name: text,
-        currentPage: 1,
-      })
-      setExhausted(false)
-    }
-  }
+  const handleInputChange = useCallback(
+    // Suspend function calls until there’s certain amount of inactivity,
+    // then invoke function with the latest arguments.
+    debounce(text => {
+      // Check if search query is different from the previous one.
+      // Ignore search query if it hasn't been changed.
+      if (text !== urlParams.name) {
+        setCards([])
+        setUrlParams({
+          name: text,
+          currentPage: 1,
+        })
+        setExhausted(false)
+      }
+    }, DEBOUNCE_TIMEOUT),
+    [urlParams]
+  )
 
   useEffect(() => {
     // Listen to the new incoming data from fetch object.
@@ -86,31 +97,37 @@ export default () => {
 
   const scrollElement = useRef(null)
 
-  const handleScroll = event => {
-    const clientHeight = event.target.clientHeight
-    const scrollTop = event.target.scrollTop
-    const scrollHeight = event.target.scrollHeight
+  const handleScroll = useCallback(
+    // Limit function calls to a certain time frame.
+    throttle(() => {
+      const {
+        clientHeight,
+        scrollTop,
+        scrollHeight,
+      } = scrollElement.current
 
-    if (blockRequest || exhausted) return
+      if (blockRequest || exhausted) return
 
-    // When the viewport has been scrolled for at least 95% of the scroll
-    // height make a new request.
-    if (clientHeight + scrollTop >= scrollHeight * 0.95) {
-      setUrlParams({
-        ...urlParams,
-        currentPage: urlParams.currentPage + 1,
-      })
-      setBlockRequest(true)
-    }
+      // When the viewport has been scrolled for at least 95% of the scroll
+      // height make a new request.
+      if (clientHeight + scrollTop >= scrollHeight * 0.95) {
+        setUrlParams({
+          ...urlParams,
+          currentPage: urlParams.currentPage + 1,
+        })
+        setBlockRequest(true)
+      }
 
-    // When the viewport has been scrolled for at least 50% show
-    // `ScrollToTopButton` component. Otherwise hide it.
-    if (scrollTop >= clientHeight * 0.5) {
-      setScrollTopButtonVisible(true)
-    } else {
-      setScrollTopButtonVisible(false)
-    }
-  }
+      // When the viewport has been scrolled for at least 50% show
+      // `ScrollToTopButton` component. Otherwise hide it.
+      if (scrollTop >= clientHeight * 0.5) {
+        setScrollTopButtonVisible(true)
+      } else {
+        setScrollTopButtonVisible(false)
+      }
+    }, THROTTLE_TIMEOUT),
+    [urlParams, blockRequest, exhausted]
+  )
 
   const scrollTop = () => {
     try {
@@ -129,7 +146,7 @@ export default () => {
   }
 
   return (
-    <ScrollContainer onScroll={handleScroll} ref={scrollElement}>
+    <ScrollContainer ref={scrollElement} onScroll={handleScroll}>
       <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <GlobalStyles />
         <Container>
@@ -145,8 +162,7 @@ export default () => {
             <SearchBox
               label='Search cards by name'
               placeholder='E.g. Shaman'
-              // Limit function calls to a certain time frame.
-              onChange={debounce(handleInputChange, DEBOUNCE_TIMEOUT)}
+              onChange={handleInputChange}
             />
 
             {/* Show spinner when:
