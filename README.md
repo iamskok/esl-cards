@@ -95,4 +95,4 @@ As always the project in _never_ done you just stop working on it. Here is a lis
 
 ## Lighthouse
 
-![Lighthouse results for https://esl-cards.netlify.app/](/screenshots/lighthouse.png "Lighthouse")
+![Lighthouse results for https://esl-cards.netlify.app/](https://github.com/iamskok/esl-cards/blob/docs/readme/screenshots/lighthouse.png "Lighthouse")
