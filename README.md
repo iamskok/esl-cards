@@ -1,5 +1,7 @@
 <div align="center">
-  <h1>Elder Scrolls Legends card explorer app</h1>
+  <a href="https://esl-cards.netlify.app">
+    <h1>Elder Scrolls Legends card explorer app</h1>
+  </a>
   
   <p>
     <a href="https://app.netlify.com/sites/esl-cards/deploys">
