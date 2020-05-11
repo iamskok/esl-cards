@@ -19,15 +19,7 @@ export default ({ children }) => (
       >
         {`<3`}
       </Link>
-      {` and pixels by `}
-      <Link
-        // To avoid unwanted fetch trigger remove the element from
-        // the default navigation flow.
-        tabIndex='-1'
-        href='https://github.com/iamskok'
-      >
-        Vladimir
-      </Link>
+      {` and pixels `}
     </Text>
 
     {children}
