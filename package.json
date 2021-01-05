@@ -20,8 +20,8 @@
   "dependencies": {
     "@babel/runtime": "7.10.1",
     "babel-plugin-styled-components": "1.10.7",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "styled-components": "5.1.1",
     "use-sound": "1.0.2"
   },
